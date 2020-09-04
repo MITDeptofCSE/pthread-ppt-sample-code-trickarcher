@@ -4,7 +4,7 @@
 
 int sum;
 
-void runner(void* param);
+void runner(void* args);
 
 int main(int argc, char** argv) {
 	pthread_t tid;
@@ -23,15 +23,16 @@ int main(int argc, char** argv) {
 
 	pthread_attr_init(&attr);
 
-	pthread_create(&tid, &attr, (void*)runner, argv[1]);
+	pthread_create(&tid, &attr, (void*)runner, (void*)&arg_int);
 
 	pthread_join(tid, NULL);
 
-	printf("sum = %d\n:", sum);
+	printf("sum = %d\n", sum);
 }
 
-void runner(void* param) {
-	int i, upper = atoi(param);
+void runner(void* args) {
+	int i; 
+	int upper = *((int*)(args));
 	sum = 0;
 
 	for(i = 1; i <= upper; i++)
